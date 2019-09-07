@@ -175,6 +175,9 @@ with KNNModelParams with HasWeightCol with Serializable {
           if ($(predictionCol).nonEmpty) {
             values.append(prediction)
           }
+          if ($(neighborsCol).nonEmpty) {
+            values.append(labelsDists)
+          }
 
           (id, values)
       }
@@ -200,6 +203,9 @@ with KNNModelParams with HasWeightCol with Serializable {
     if ($(predictionCol).nonEmpty) {
       transformed = SchemaUtils.appendColumn(transformed, $(predictionCol), DoubleType)
     }
+    if ($(neighborsCol).nonEmpty) {
+      transformed = SchemaUtils.appendColumn(transformed, $(neighborsCol), Array[(Row, Double)])
+    }   
     transformed
   }
 
